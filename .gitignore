@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 node_modules/
 server/node_modules/
@@ -7,3 +8,24 @@ server/.env
 .DS_Store
 Thumbs.db
 .vscode/
+=======
+
+# Dependencies
+node_modules/
+server/node_modules/
+
+# Environment secrets
+.env
+server/.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+>>>>>>> c2e96a4e6f208bcf785d7120f2217fec4451c56e
