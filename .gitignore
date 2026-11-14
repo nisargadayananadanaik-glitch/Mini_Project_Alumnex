@@ -1,10 +1,25 @@
-<<<<<<< HEAD
 
-node_modules/
-server/node_modules/
+# Environment variables and secrets
 .env
-server/.env
+.env.*
+**/.env
+**/.env.*
+
+# Dependencies
+node_modules/
+**/node_modules/
+
+# Logs
 *.log
+npm-debug.log*
+
+# System files
 .DS_Store
 Thumbs.db
+
+# Editor settings
 .vscode/
+
+# Build files
+dist/
+build/
