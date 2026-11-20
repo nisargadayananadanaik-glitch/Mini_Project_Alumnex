@@ -1,131 +1,104 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALUMNEX | Alumni Connect</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <title>ALUMNEX | Alumni Network</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
+    <header class="site-header">
+        <a class="brand" href="index.html"><span class="brand-mark">A</span> ALUMNEX</a>
+        <nav class="public-nav">
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="login.html">Login</a>
+            <a class="btn btn-primary" href="register.html">Join ALUMNEX</a>
+        </nav>
+    </header>
 
-<header class="navbar">
-    <a href="#" class="logo">ALUMNEX<span>.</span></a>
-
-    <nav>
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="#community">Community</a>
-    </nav>
-
-    <div class="nav-actions">
-        <a href="login.html" class="login-link">Login</a>
-        <a href="register.html" class="btn-primary">Join Network</a>
-    </div>
-</header>
-
-<section class="hero" id="home">
-    <div class="hero-content">
-        <span class="eyebrow">THE FUTURE OF ALUMNI CONNECTION</span>
-
-        <h1>
-            One Institution.<br>
-            <span>Infinite Connections.</span>
-        </h1>
-
-        <p>
-            A powerful community connecting graduates,
-            students and opportunities. Your college journey
-            doesn't end at graduation.
-        </p>
-
-        <div class="hero-buttons">
-            <a href="register.html" class="btn-primary">Become a Member →</a>
-            <a href="#features" class="btn-outline">Explore Platform</a>
-        </div>
-
-        <div class="hero-stats">
-            <div>
-                <strong class="counter" data-target="2500">0</strong>
-                <small>Alumni Members</small>
+    <main>
+        <section class="hero" id="about">
+            <div class="hero-content">
+                <span class="eyebrow">YOUR CAMPUS. YOUR COMMUNITY. YOUR FUTURE.</span>
+                <h1>One network.<br><span>Endless possibilities.</span></h1>
+                <p>
+                    Connect students and alumni, discover career opportunities,
+                    find mentors and stay connected with your institution.
+                </p>
+                <div class="hero-actions">
+                    <a class="btn btn-primary" href="register.html">Get Started <span>→</span></a>
+                    <a class="btn btn-outline" href="login.html">Sign In</a>
+                </div>
+                <div class="hero-note">
+                    <span class="status-dot"></span>
+                    A community built for lifelong connections
+                </div>
             </div>
-            <div>
-                <strong class="counter" data-target="120">0</strong>
-                <small>Career Mentors</small>
+            <div class="hero-art">
+                <div class="orbit orbit-one"></div>
+                <div class="orbit orbit-two"></div>
+                <div class="hero-center">
+                    <div class="hero-logo">A</div>
+                    <strong>ALUMNEX</strong>
+                    <small>CONNECT · GROW · SUCCEED</small>
+                </div>
+                <div class="floating-card float-one">🎓 <span>Alumni network</span></div>
+                <div class="floating-card float-two">💼 <span>Career opportunities</span></div>
+                <div class="floating-card float-three">🤝 <span>Mentorship</span></div>
             </div>
-            <div>
-                <strong class="counter" data-target="350">0</strong>
-                <small>Opportunities</small>
+        </section>
+
+        <section class="section features-section" id="features">
+            <div class="section-heading">
+                <span class="eyebrow">WHAT YOU CAN DO</span>
+                <h2>Grow together, <span>go further.</span></h2>
+                <p>Everything you need to build meaningful academic and professional connections.</p>
             </div>
-        </div>
-    </div>
 
-    <div class="hero-image">
-        <div class="image-overlay">
-            <span>CONNECTED BY LEGACY</span>
-            <h2>Where every journey inspires another.</h2>
-        </div>
-    </div>
-</section>
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <div class="feature-icon">👥</div>
+                    <h3>Alumni Directory</h3>
+                    <p>Discover graduates, explore their journeys and connect with experienced professionals.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon">🧭</div>
+                    <h3>Mentorship</h3>
+                    <p>Reach out to alumni for guidance, career advice and professional development.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3>Career Opportunities</h3>
+                    <p>Explore job opportunities shared by alumni and take your next career step.</p>
+                </article>
+                <article class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Events & Reunions</h3>
+                    <p>Stay informed about upcoming campus events and alumni activities.</p>
+                </article>
+            </div>
+        </section>
 
-<section class="intro" id="about">
-    <span class="eyebrow">MORE THAN A NETWORK</span>
-    <h2>Turning connections<br>into <span>opportunities.</span></h2>
-    <p>
-        ALUMNEX brings an entire institution together
-        through mentorship, careers, events and lifelong
-        professional relationships.
-    </p>
-</section>
+        <section class="join-banner">
+            <div>
+                <span class="eyebrow">YOUR NEXT CONNECTION STARTS HERE</span>
+                <h2>Be part of the ALUMNEX community.</h2>
+            </div>
+            <a class="btn btn-light" href="register.html">Create your account →</a>
+        </section>
+    </main>
 
-<section class="features" id="features">
-    <div class="section-heading">
-        <span class="eyebrow">EXPLORE ALUMNEX</span>
-        <h2>Everything. Connected.</h2>
-    </div>
+    <footer class="site-footer">
+        <a class="brand" href="index.html"><span class="brand-mark">A</span> ALUMNEX</a>
+        <p>Connecting generations. Creating opportunities.</p>
+        <span>© <span id="year"></span> ALUMNEX</span>
+    </footer>
 
-    <div class="feature-grid">
-        <article class="feature-card">
-            <div class="feature-icon">✦</div>
-            <h3>Alumni Directory</h3>
-            <p>Discover graduates and build meaningful connections.</p>
-        </article>
-
-        <article class="feature-card">
-            <div class="feature-icon">↗</div>
-            <h3>Career Opportunities</h3>
-            <p>Discover internships, jobs and professional referrals.</p>
-        </article>
-
-        <article class="feature-card">
-            <div class="feature-icon">◎</div>
-            <h3>Mentorship</h3>
-            <p>Learn from alumni who have walked your career path.</p>
-        </article>
-
-        <article class="feature-card">
-            <div class="feature-icon">◇</div>
-            <h3>Events & Reunions</h3>
-            <p>Reconnect with your batch and celebrate your journey.</p>
-        </article>
-    </div>
-</section>
-
-<section class="community" id="community">
-    <span class="eyebrow">YOUR JOURNEY CONTINUES</span>
-    <h2>Stay connected.<br>Keep inspiring.</h2>
-    <a href="register.html" class="btn-primary">Join ALUMNEX →</a>
-</section>
-
-<footer>
-    <a href="#" class="logo">ALUMNEX<span>.</span></a>
-    <p>Connecting generations. Creating opportunities.</p>
-    <small>© 2026 ALUMNEX. All rights reserved.</small>
-</footer>
-
-<script src="js/main.js"></script>
+    <script>
+        document.getElementById("year").textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

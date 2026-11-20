@@ -1,0 +1,657 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | ALUMNEX</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dashboard-page">
+
+    <aside class="sidebar" id="sidebar">
+        <a class="brand sidebar-brand" href="index.html">
+            <span class="brand-mark">A</span> ALUMNEX
+        </a>
+
+        <div class="sidebar-label">WORKSPACE</div>
+
+        <nav class="side-nav">
+            <button class="nav-item active" data-section="overview">▦ <span>Overview</span></button>
+            <button class="nav-item student-only" data-section="alumni">♧ <span>Alumni Directory</span></button>
+            <button class="nav-item alumni-only hidden" data-section="students">♙ <span>Student Directory</span></button>
+            <button class="nav-item alumni-only hidden" data-section="alumni">♧ <span>Alumni Directory</span></button>
+            <button class="nav-item" data-section="events">▣ <span>Events</span></button>
+            <button class="nav-item" data-section="jobs">▤ <span id="jobsNavLabel">Jobs & Internships</span></button>
+            <button class="nav-item" data-section="mentorship">◇ <span id="mentorshipNavLabel">Mentorship</span></button>
+            <button class="nav-item" data-section="messages">✉ <span>Messages</span></button>
+            <button class="nav-item" data-section="notifications">♢ <span>Notifications</span></button>
+            <button class="nav-item" data-section="profile">◉ <span>My Profile</span></button>
+            <button class="nav-item" data-section="settings">⚙ <span>Settings</span></button>
+            <button class="nav-item admin-only hidden" data-section="users">♙ <span>Manage Users</span></button>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <button class="sidebar-user profile-shortcut" id="profileShortcut"
+                    type="button" title="Edit my profile">
+                <div class="avatar" id="sidebarAvatar">A</div>
+                <div class="profile-shortcut-text">
+                    <strong id="sidebarName">Loading...</strong>
+                    <small id="sidebarRole">Member</small>
+                    <span>Edit profile →</span>
+                </div>
+            </button>
+
+            <button class="logout-button" id="logoutButton" type="button">
+                ↪ Sign Out
+            </button>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+
+        <header class="dashboard-topbar">
+            <button class="mobile-menu" id="mobileMenu">☰</button>
+
+            <div>
+                <span class="topbar-label">ALUMNEX COMMUNITY</span>
+                <h2 id="pageTitle">Overview</h2>
+            </div>
+
+            <div class="topbar-right">
+                <span class="online-indicator">● Online</span>
+                <div class="avatar" id="topAvatar">A</div>
+            </div>
+        </header>
+
+        <div class="dashboard-content">
+
+            <div id="notice" class="notice hidden" aria-live="polite"></div>
+
+            <!-- OVERVIEW -->
+            <section class="dashboard-section active" id="section-overview">
+
+                <div class="welcome-panel">
+                    <div>
+                        <span class="eyebrow">YOUR ALUMNEX SPACE</span>
+                        <h1>Welcome back, <span id="welcomeName">Member</span>!</h1>
+                        <p id="welcomeSummary">
+                            Your community is ready. Explore connections and opportunities.
+                        </p>
+                    </div>
+                    <div class="welcome-symbol">A</div>
+                </div>
+
+                <div class="stats-grid" id="overviewStats">
+
+                    <article class="stat-card">
+                        <span class="stat-icon">◉</span>
+                        <p>Profile completion</p>
+                        <h2 id="profileCompletion">0%</h2>
+                        <div class="progress-track">
+                            <span id="profileCompletionBar"></span>
+                        </div>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon">♧</span>
+                        <p>Total alumni available</p>
+                        <h2 id="statAlumni">—</h2>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon">▣</span>
+                        <p>Upcoming events</p>
+                        <h2 id="statEvents">—</h2>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon">▤</span>
+                        <p>Career opportunities</p>
+                        <h2 id="statJobs">—</h2>
+                    </article>
+
+                    <article class="stat-card">
+                        <span class="stat-icon">◇</span>
+                        <p id="mentorshipStatLabel">Mentorship opportunities</p>
+                        <h2 id="statMentorship">—</h2>
+                    </article>
+
+                </div>
+
+                <div class="quick-actions">
+                    <button class="btn btn-primary" data-go="alumni">Find alumni</button>
+                    <button class="btn btn-outline" data-go="events">Explore events</button>
+                    <button class="btn btn-outline" data-go="jobs">Browse jobs</button>
+                    <button class="btn btn-outline" data-go="mentorship">Mentorship</button>
+                </div>
+
+                <div class="content-grid">
+
+                    <article class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="eyebrow">WHAT'S HAPPENING</span>
+                                <h3>Upcoming events</h3>
+                            </div>
+                            <button class="text-button" data-go="events">View all →</button>
+                        </div>
+
+                        <div id="overviewEvents" class="item-list">
+                            <p class="muted">Loading events...</p>
+                        </div>
+                    </article>
+
+                    <article class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="eyebrow">NEW OPPORTUNITIES</span>
+                                <h3>Latest jobs</h3>
+                            </div>
+                            <button class="text-button" data-go="jobs">View all →</button>
+                        </div>
+
+                        <div id="overviewJobs" class="item-list">
+                            <p class="muted">Loading jobs...</p>
+                        </div>
+                    </article>
+
+                    <article class="panel">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="eyebrow">YOUR LATEST UPDATES</span>
+                                <h3>Recent notifications</h3>
+                            </div>
+                            <button class="text-button" data-go="notifications">View all →</button>
+                        </div>
+
+                        <div id="overviewNotifications" class="item-list">
+                            <p class="muted">Loading notifications...</p>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+
+            <!-- PROFILE -->
+            <section class="dashboard-section" id="section-profile">
+
+                <div class="section-intro">
+                    <span class="eyebrow">YOUR INFORMATION</span>
+                    <h1>My Profile</h1>
+                    <p>Keep your details up to date so your community can know you better.</p>
+                </div>
+
+                <article class="panel form-panel">
+
+                    <div class="profile-completion">
+                        <div class="panel-heading">
+                            <div>
+                                <span class="eyebrow">PROFILE STRENGTH</span>
+                                <h3>Profile completion</h3>
+                            </div>
+                            <strong id="profileCompletionDetail">0%</strong>
+                        </div>
+
+                        <div class="progress-track">
+                            <span id="profileCompletionDetailBar"></span>
+                        </div>
+                    </div>
+
+                    <form id="profileForm" class="dashboard-form">
+
+                        <div class="form-grid">
+
+                            <div>
+                                <label for="profileName">Full name</label>
+                                <input id="profileName" name="name" required>
+                            </div>
+
+                            <div>
+                                <label>Email address</label>
+                                <input id="profileEmail" disabled>
+                            </div>
+
+                            <div>
+                                <label for="profileDepartment">Department</label>
+                                <input id="profileDepartment" name="department">
+                            </div>
+
+                            <div>
+                                <label for="profilePhone">Phone number</label>
+                                <input id="profilePhone" name="phone" type="tel" autocomplete="tel">
+                            </div>
+
+                            <div>
+                                <label for="profilePhotoUrl">Profile photo URL</label>
+                                <input id="profilePhotoUrl" name="photo_url" type="url" placeholder="https://...">
+                            </div>
+
+                            <div id="profileCourseGroup">
+                                <label for="profileCourse">Course</label>
+                                <input id="profileCourse" name="course">
+                            </div>
+
+                            <div id="profileStudyGroup">
+                                <label for="profileStudyYear">Current year</label>
+                                <select id="profileStudyYear" name="study_year">
+                                    <option value="">Select year</option>
+                                    <option value="1">First year</option>
+                                    <option value="2">Second year</option>
+                                    <option value="3">Third year</option>
+                                    <option value="4">Fourth year</option>
+                                </select>
+                            </div>
+
+                            <div id="profileSemesterGroup">
+                                <label for="profileSemester">Current semester</label>
+                                <select id="profileSemester" name="semester">
+                                    <option value="">Select semester</option>
+                                    <option value="1">Semester 1</option>
+                                    <option value="2">Semester 2</option>
+                                    <option value="3">Semester 3</option>
+                                    <option value="4">Semester 4</option>
+                                    <option value="5">Semester 5</option>
+                                    <option value="6">Semester 6</option>
+                                    <option value="7">Semester 7</option>
+                                    <option value="8">Semester 8</option>
+                                </select>
+                            </div>
+
+                            <div id="profileStudentGraduationGroup">
+                                <label for="profileStudentGraduation">Expected graduation year</label>
+                                <input id="profileStudentGraduation" name="graduation_year"
+                                       type="number" min="1950" max="2100">
+                            </div>
+
+                            <div class="full-width" id="profileStudentSkillsGroup">
+                                <label for="profileStudentSkills">Skills</label>
+                                <textarea id="profileStudentSkills" name="skills" rows="2"
+                                          placeholder="Separate skills with commas"></textarea>
+                            </div>
+
+                            <div class="full-width" id="profileInterestsGroup">
+                                <label for="profileInterests">Interests</label>
+                                <textarea id="profileInterests" name="interests" rows="2"></textarea>
+                            </div>
+
+                            <div class="full-width" id="profileCareerGoalsGroup">
+                                <label for="profileCareerGoals">Career goals</label>
+                                <textarea id="profileCareerGoals" name="career_goals" rows="2"></textarea>
+                            </div>
+
+                            <div id="profileResumeGroup">
+                                <label for="profileResumeUrl">Resume link</label>
+                                <input id="profileResumeUrl" name="resume_url" type="url"
+                                       placeholder="https://...">
+                            </div>
+
+                            <div id="profileGithubGroup">
+                                <label for="profileGithubUrl">GitHub profile</label>
+                                <input id="profileGithubUrl" name="github_url" type="url"
+                                       placeholder="https://github.com/...">
+                            </div>
+
+                            <div id="profileLinkedinGroup">
+                                <label for="profileLinkedinUrl">LinkedIn profile</label>
+                                <input id="profileLinkedinUrl" name="linkedin_url" type="url"
+                                       placeholder="https://linkedin.com/in/...">
+                            </div>
+
+                            <div id="profileAlumniSkillsGroup" class="hidden full-width">
+                                <label for="profileAlumniSkills">Skills and expertise</label>
+                                <textarea id="profileAlumniSkills" name="skills" rows="2"></textarea>
+                            </div>
+
+                            <div id="profileWorkExperienceGroup" class="hidden full-width">
+                                <label for="profileWorkExperience">Work experience</label>
+                                <textarea id="profileWorkExperience" name="work_experience" rows="3"></textarea>
+                            </div>
+
+                            <div id="profileCareerJourneyGroup" class="hidden full-width">
+                                <label for="profileCareerJourney">Career journey</label>
+                                <textarea id="profileCareerJourney" name="career_journey" rows="3"></textarea>
+                            </div>
+
+                            <div class="full-width">
+                                <label for="profileBio">About me</label>
+                                <textarea id="profileBio" name="bio" rows="4"></textarea>
+                            </div>
+
+                            <div id="profileGraduationGroup" class="hidden">
+                                <label for="profileGraduation">Graduation year</label>
+                                <input id="profileGraduation" name="graduation_year" type="number">
+                            </div>
+
+                            <div id="profileCollegeGroup" class="hidden">
+                                <label for="profileCollege">College / Institution</label>
+                                <input id="profileCollege" name="college"
+                                       placeholder="Enter your college or institution">
+                            </div>
+
+                            <div id="profileCompanyGroup" class="hidden">
+                                <label for="profileCompany">Company</label>
+                                <input id="profileCompany" name="company">
+                            </div>
+
+                            <div id="profileDesignationGroup" class="hidden">
+                                <label for="profileDesignation">Designation</label>
+                                <input id="profileDesignation" name="designation">
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">Save changes →</button>
+                    </form>
+                </article>
+            </section>
+
+
+            <!-- STUDENT DIRECTORY -->
+            <section class="dashboard-section" id="section-students">
+                <div class="section-intro">
+                    <span class="eyebrow">CONNECT WITH THE COMMUNITY</span>
+                    <h1>Student Directory</h1>
+                    <p>Discover students and learn about their interests, skills, and goals.</p>
+                </div>
+
+                <div class="search-bar">
+                    <input type="search" id="studentSearch"
+                           placeholder="Search by name, course or department...">
+                    <button class="btn btn-primary" id="searchStudents">Search</button>
+                </div>
+
+                <div class="people-grid" id="studentList"></div>
+            </section>
+
+
+            <!-- MESSAGES -->
+            <section class="dashboard-section" id="section-messages">
+                <div class="section-intro">
+                    <span class="eyebrow">STAY IN TOUCH</span>
+                    <h1>Messages</h1>
+                    <p>Direct messaging is not available yet.</p>
+                </div>
+            </section>
+
+
+            <!-- SETTINGS -->
+            <section class="dashboard-section" id="section-settings">
+                <div class="section-intro">
+                    <span class="eyebrow">ACCOUNT PREFERENCES</span>
+                    <h1>Settings</h1>
+                    <p>Account settings are not available yet. You can update your profile from My Profile.</p>
+                </div>
+            </section>
+
+
+            <!-- ALUMNI DIRECTORY -->
+            <section class="dashboard-section" id="section-alumni">
+
+                <div class="section-intro">
+                    <span class="eyebrow">LEARN FROM EXPERIENCE</span>
+                    <h1>Alumni Directory</h1>
+                    <p>Discover approved alumni and explore their professional journeys.</p>
+                </div>
+
+                <div class="search-bar">
+                    <input type="search" id="alumniSearch"
+                           placeholder="Search by name, company or department...">
+                    <button class="btn btn-primary" id="searchAlumni">Search</button>
+                </div>
+
+                <div class="people-grid" id="alumniList"></div>
+            </section>
+
+
+            <!-- EVENTS -->
+            <section class="dashboard-section" id="section-events">
+
+                <div class="section-intro">
+                    <span class="eyebrow">STAY CONNECTED</span>
+                    <h1>Events & Activities</h1>
+                    <p>Discover what's happening in your ALUMNEX community.</p>
+                </div>
+
+                <!-- ADMIN / ALUMNI CREATE EVENT -->
+                <div id="eventAdminPanel" class="panel hidden">
+
+                    <h3>Create an event</h3>
+
+                    <form id="eventForm" class="dashboard-form">
+
+                        <div class="form-grid">
+
+                            <div>
+                                <label for="eventTitle">Event title</label>
+                                <input id="eventTitle" name="title" required maxlength="200">
+                            </div>
+
+                            <div>
+                                <label for="eventDate">Date and time</label>
+                                <input id="eventDate" name="event_date"
+                                       type="datetime-local" required>
+                            </div>
+
+                            <div>
+                                <label for="eventVenue">Venue</label>
+                                <input id="eventVenue" name="venue" maxlength="200">
+                            </div>
+
+                            <div>
+                                <label for="eventRegistrationLink">Online registration link</label>
+                                <input id="eventRegistrationLink" name="registration_link"
+                                       type="url" maxlength="500" placeholder="https://...">
+                            </div>
+
+                            <div class="full-width">
+                                <label for="eventDescription">Description</label>
+                                <textarea id="eventDescription" name="description" rows="3"></textarea>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">
+                            Create event
+                        </button>
+
+                    </form>
+                </div>
+
+
+                <!-- EVENT NAVIGATION -->
+                <div class="event-toolbar">
+
+                    <button type="button" class="btn btn-primary" id="showAllEvents">
+                        All Events
+                    </button>
+
+                    <button type="button" class="btn btn-outline" id="showMyEvents">
+                        My Registered Events
+                    </button>
+
+                </div>
+
+
+                <!-- ALL EVENTS -->
+                <div class="event-grid" id="eventList">
+                    <p class="muted">Loading events...</p>
+                </div>
+
+
+                <!-- MY REGISTERED EVENTS -->
+                <div id="myEventsSection" class="hidden">
+
+                    <div class="section-intro">
+                        <h2>My Registered Events</h2>
+                        <p>Events you have registered to attend.</p>
+                    </div>
+
+                    <div id="myEventsList" class="event-grid">
+                        <p class="muted">Loading your registrations...</p>
+                    </div>
+
+                </div>
+
+
+                <!-- EVENT ATTENDEES - ADMIN -->
+                <div id="eventAttendeesPanel" class="panel hidden">
+
+                    <div class="panel-heading">
+                        <h3 id="attendeesHeading">Event attendees</h3>
+
+                        <button type="button" class="btn btn-outline btn-small"
+                                id="closeAttendees">
+                            Close
+                        </button>
+                    </div>
+
+                    <div id="eventAttendeesList" class="item-list">
+                        <p class="muted">Select an event to view attendees.</p>
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- JOBS -->
+            <section class="dashboard-section" id="section-jobs">
+
+                <div class="section-intro">
+                    <span class="eyebrow">BUILD YOUR CAREER</span>
+                    <h1>Career Opportunities</h1>
+                    <p>Explore opportunities shared by members of the alumni community.</p>
+                </div>
+
+                <div id="jobPostPanel" class="panel hidden">
+
+                    <h3>Share a job opportunity</h3>
+
+                    <form id="jobForm" class="dashboard-form">
+
+                        <div class="form-grid">
+
+                            <div>
+                                <label>Job title</label>
+                                <input name="title" required>
+                            </div>
+
+                            <div>
+                                <label>Company</label>
+                                <input name="company" required>
+                            </div>
+
+                            <div>
+                                <label>Location</label>
+                                <input name="location">
+                            </div>
+
+                            <div>
+                                <label>Application link</label>
+                                <input name="application_link" type="url">
+                            </div>
+
+                            <div class="full-width">
+                                <label>Description</label>
+                                <textarea name="description" rows="3"></textarea>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-primary" type="submit">
+                            Publish job
+                        </button>
+
+                    </form>
+                </div>
+
+                <div class="job-grid" id="jobList"></div>
+
+            </section>
+
+
+            <!-- MENTORSHIP -->
+            <section class="dashboard-section" id="section-mentorship">
+
+                <div class="section-intro">
+                    <span class="eyebrow">GROW WITH GUIDANCE</span>
+                    <h1>Mentorship</h1>
+                    <p>Students can request guidance. Alumni can review and respond to requests.</p>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-heading">
+                        <h3 id="mentorshipHeading">Your mentorship activity</h3>
+                    </div>
+
+                    <div id="mentorshipList" class="item-list"></div>
+                </div>
+
+            </section>
+
+
+            <!-- NOTIFICATIONS -->
+            <section class="dashboard-section" id="section-notifications">
+
+                <div class="section-intro">
+                    <span class="eyebrow">YOUR UPDATES</span>
+                    <h1>Notifications</h1>
+                    <p>Updates about your account and community activity.</p>
+                </div>
+
+                <div class="panel">
+                    <div id="notificationList" class="item-list">
+                        <p class="muted">Loading notifications...</p>
+                    </div>
+                </div>
+
+            </section>
+
+
+            <!-- ADMIN USERS -->
+            <section class="dashboard-section" id="section-users">
+
+                <div class="section-intro">
+                    <span class="eyebrow">PLATFORM CONTROL</span>
+                    <h1>Manage Users</h1>
+                    <p>Review accounts and manage membership status.</p>
+                </div>
+
+                <div class="stats-grid" id="adminStats"></div>
+
+                <div class="panel table-panel">
+
+                    <div class="panel-heading">
+                        <h3>Registered members</h3>
+                    </div>
+
+                    <div class="table-scroll">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="usersTable"></tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+
+</body>
+</html>
+```

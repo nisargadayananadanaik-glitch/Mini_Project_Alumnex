@@ -2,30 +2,311 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ALUMNEX | Register</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<section class="intro">
-    <span class="eyebrow">JOIN OUR COMMUNITY</span>
-    <h2>Create your <span>Account</span></h2>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join ALUMNEX | Registration</title>
+    <link rel="stylesheet" href="css/style.css">
 
-    <form id="registerForm" style="max-width:400px;margin:35px auto">
-        <input id="name" placeholder="Full name" required>
-        <input id="email" type="email" placeholder="Email address" required>
-        <input id="password" type="password" minlength="8" placeholder="Password (minimum 8 characters)" required>
-        <select id="role" required>
-            <option value="">Select your role</option>
-            <option value="student">Current Student</option>
-            <option value="alumni">Alumni</option>
-        </select>
-        <button class="btn-primary" type="submit" style="border:0;cursor:pointer;width:100%">Create Account →</button>
-        <p id="message"></p>
-    </form>
-    <p>Already registered? <a href="login.html">Login</a></p>
-</section>
+    <style>
+        .auth-wrapper {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+            background: #f4f5f9;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 540px;
+            padding: 40px;
+            background: white;
+            border-radius: 18px;
+            box-shadow: 0 15px 55px rgba(16,28,50,.09);
+        }
+
+        .auth-heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .auth-heading h1 {
+            color: #101c32;
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+        }
+
+        .auth-heading p {
+            color: #788092;
+            margin-top: 10px;
+        }
+
+        .auth-form label {
+            display: block;
+            font-weight: 600;
+            font-size: 13px;
+            margin: 14px 0 7px;
+            color: #283246;
+        }
+
+        .auth-form input,
+        .auth-form select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #dce0e8;
+            border-radius: 7px;
+            font-size: 14px;
+            background: white;
+        }
+
+        .auth-form input:focus,
+        .auth-form select:focus {
+            outline: none;
+            border-color: #3157a4;
+        }
+
+        .auth-submit {
+            width: 100%;
+            margin-top: 24px;
+            padding: 15px;
+            border: none;
+            border-radius: 7px;
+            background: #101c32;
+            color: white;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .auth-submit:hover {
+            background: #3157a4;
+        }
+
+        .auth-message {
+            margin-top: 16px;
+            padding: 12px;
+            border-radius: 7px;
+            display: none;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .auth-message.success {
+            display: block;
+            background: #e7f7ed;
+            color: #16713b;
+        }
+
+        .auth-message.error {
+            display: block;
+            background: #fff0f0;
+            color: #bd3030;
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 22px;
+            font-size: 14px;
+        }
+
+        .auth-footer a {
+            color: #3157a4;
+            font-weight: 700;
+        }
+
+        .role-fields[hidden] {
+            display: none;
+        }
+
+        @media(max-width: 500px) {
+            .auth-card {
+                padding: 25px 19px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="auth-wrapper">
+    <div class="auth-card">
+
+        <div class="auth-heading">
+            <a href="index.html" class="logo">ALUMNEX<span>.</span></a>
+            <h1>Create Account</h1>
+            <p>Become part of your institution's growing community.</p>
+        </div>
+
+        <form id="registerForm" class="auth-form">
+
+            <label for="name">Full Name *</label>
+            <input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter your full name"
+                required
+            >
+
+            <label for="email">Email Address *</label>
+            <input
+                type="email"
+                id="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+            >
+
+            <label for="phone">Phone Number *</label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                placeholder="Enter your phone number"
+                autocomplete="tel"
+                minlength="7"
+                maxlength="30"
+                required
+            >
+
+            <label for="password">Password *</label>
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Minimum 8 characters"
+                minlength="8"
+                required
+            >
+
+            <label for="confirmPassword">Confirm Password *</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                placeholder="Re-enter your password"
+                minlength="8"
+                required
+            >
+
+            <label for="role">Register As *</label>
+            <select id="role" name="role" required>
+                <option value="">Select your role</option>
+                <option value="student">Current Student</option>
+                <option value="alumni">Alumni</option>
+            </select>
+
+            <div id="studentFields" class="role-fields" hidden>
+
+                <label for="department">Department *</label>
+                <input
+                    type="text"
+                    id="department"
+                    name="department"
+                    placeholder="e.g. Computer Science"
+                >
+
+                <label for="study_year">Current Study Year *</label>
+                <select id="study_year" name="study_year">
+                    <option value="">Select year</option>
+                    <option value="1">First Year</option>
+                    <option value="2">Second Year</option>
+                    <option value="3">Third Year</option>
+                    <option value="4">Fourth Year</option>
+                </select>
+
+                <label for="semester">Current Semester *</label>
+                <select id="semester" name="semester">
+                    <option value="">Select semester</option>
+                    <option value="1">Semester 1</option>
+                    <option value="2">Semester 2</option>
+                    <option value="3">Semester 3</option>
+                    <option value="4">Semester 4</option>
+                    <option value="5">Semester 5</option>
+                    <option value="6">Semester 6</option>
+                    <option value="7">Semester 7</option>
+                    <option value="8">Semester 8</option>
+                </select>
+
+            </div>
+
+            <div id="alumniFields" class="role-fields" hidden>
+
+                <label for="alumniCollege">College / Institution *</label>
+                <select id="alumniCollege" name="college" required>
+                    <option value="">Select your college</option>
+                    <option value="Engineering College">Engineering College</option>
+                    <option value="Arts and Science College">Arts and Science College</option>
+                    <option value="Commerce College">Commerce College</option>
+                    <option value="Science College">Science College</option>
+                    <option value="Medical College">Medical College</option>
+                    <option value="Polytechnic College">Polytechnic College</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <div id="otherCollegeFields" hidden>
+                    <label for="otherCollege">College Name *</label>
+                    <input
+                        type="text"
+                        id="otherCollege"
+                        name="other_college"
+                        placeholder="Enter your college name"
+                    >
+                </div>
+
+                <label for="alumniDepartment">Department *</label>
+                <input
+                    type="text"
+                    id="alumniDepartment"
+                    name="alumni_department"
+                    placeholder="Your department"
+                >
+
+                <label for="graduation_year">Graduation Year *</label>
+                <input
+                    type="number"
+                    id="graduation_year"
+                    name="graduation_year"
+                    placeholder="e.g. 2024"
+                    min="1950"
+                    max="2100"
+                >
+
+                <label for="company">Current Company</label>
+                <input
+                    type="text"
+                    id="company"
+                    name="company"
+                    placeholder="Company name"
+                >
+
+                <label for="designation">Job Designation</label>
+                <input
+                    type="text"
+                    id="designation"
+                    name="designation"
+                    placeholder="Your current designation"
+                >
+
+            </div>
+
+            <button type="submit" class="auth-submit" id="registerButton">
+                Create My Account →
+            </button>
+
+            <div id="authMessage" class="auth-message" role="status" aria-live="polite"></div>
+
+        </form>
+
+        <div class="auth-footer">
+            Already have an account?
+            <a href="login.html">Login here</a>
+        </div>
+
+    </div>
+</div>
+
 <script src="js/auth.js"></script>
 </body>
 </html>
