@@ -6,102 +6,161 @@ const db = require("../config/db");
 
 const router = express.Router();
 
-// STUDENT / ALUMNI REGISTRATION
+// ==========================================
+// REGISTER
+// POST /api/auth/register
+// STUDENT AND ALUMNI
+// Both accounts are approved immediately
+// ==========================================
+
 router.post("/register", async (req, res) => {
+    const {
+        name,
+        email,
+        password,
+        role,
+
+        // Student details
+        phone,
+        course,
+        semester,
+        department,
+        study_year,
+
+        // Alumni details
+        college,
+        graduation_year,
+        company,
+        designation
+    } = req.body;
+
+    if (!name || !email || !password || !role) {
+        return res.status(400).json({
+            success: false,
+            message: "Name, email, password and role are required."
+        });
+    }
+
+    const normalizedName = String(name).trim();
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const normalizedRole = String(role).trim().toLowerCase();
+
+    if (!["student", "alumni"].includes(normalizedRole)) {
+        return res.status(400).json({
+            success: false,
+            message: "Only student and alumni registration is allowed."
+        });
+    }
+
+    if (normalizedName.length < 2) {
+        return res.status(400).json({
+            success: false,
+            message: "Please enter a valid name."
+        });
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalizedEmail)) {
+        return res.status(400).json({
+            success: false,
+            message: "Please enter a valid email address."
+        });
+    }
+
+    if (String(password).length < 8) {
+        return res.status(400).json({
+            success: false,
+            message: "Password must contain at least 8 characters."
+        });
+    }
+
     let connection;
 
     try {
-        const {
-            name,
-            email,
-            password,
-            role,
-            department,
-            study_year,
-            graduation_year,
-            company,
-            designation
-        } = req.body;
+        connection = await db.getConnection();
+        await connection.beginTransaction();
 
-        if (!name || !email || !password || !role) {
-            return res.status(400).json({
-                success: false,
-                message: "Please fill in all required fields."
-            });
-        }
-
-        if (!["student", "alumni"].includes(role)) {
-            return res.status(400).json({
-                success: false,
-                message: "Invalid registration role."
-            });
-        }
-
-        if (password.length < 8) {
-            return res.status(400).json({
-                success: false,
-                message: "Password must contain at least 8 characters."
-            });
-        }
-
-        const normalizedEmail = email.trim().toLowerCase();
-
-        const [existing] = await db.execute(
+        // Check existing account
+        const [existingUsers] = await connection.execute(
             "SELECT id FROM users WHERE email = ?",
             [normalizedEmail]
         );
 
-        if (existing.length > 0) {
+        if (existingUsers.length > 0) {
+            await connection.rollback();
+
             return res.status(409).json({
                 success: false,
-                message: "This email is already registered. Please login."
+                message: "An account with this email already exists."
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 12);
+        const hashedPassword = await bcrypt.hash(
+            password,
+            12
+        );
 
-        connection = await db.getConnection();
-        await connection.beginTransaction();
-
-        const accountStatus =
-            role === "student" ? "approved" : "pending";
-
-        const [userResult] = await connection.execute(
+        // IMPORTANT:
+        // Both students and alumni are approved immediately.
+        const [result] = await connection.execute(
             `INSERT INTO users
-            (name, email, password, role, status)
-            VALUES (?, ?, ?, ?, ?)`,
+             (name, email, password, role, status)
+             VALUES (?, ?, ?, ?, 'approved')`,
             [
-                name.trim(),
+                normalizedName,
                 normalizedEmail,
                 hashedPassword,
-                role,
-                accountStatus
+                normalizedRole
             ]
         );
 
-        const userId = userResult.insertId;
+        const userId = result.insertId;
 
-        if (role === "student") {
+        // ======================================
+        // STUDENT PROFILE
+        // ======================================
+
+        if (normalizedRole === "student") {
             await connection.execute(
                 `INSERT INTO student_profiles
-                (user_id, department, study_year, career_interest)
-                VALUES (?, ?, ?, ?)`,
+                 (
+                    user_id,
+                    phone,
+                    course,
+                    semester,
+                    department,
+                    study_year
+                 )
+                 VALUES (?, ?, ?, ?, ?, ?)`,
                 [
                     userId,
+                    phone || null,
+                    course || null,
+                    semester || null,
                     department || null,
-                    study_year || null,
-                    null
+                    study_year || null
                 ]
             );
         }
 
-        if (role === "alumni") {
+        // ======================================
+        // ALUMNI PROFILE
+        // ======================================
+
+        if (normalizedRole === "alumni") {
             await connection.execute(
                 `INSERT INTO alumni_profiles
-                (user_id, graduation_year, department, company, designation)
-                VALUES (?, ?, ?, ?, ?)`,
+                 (
+                    user_id,
+                    college,
+                    graduation_year,
+                    department,
+                    company,
+                    designation
+                 )
+                 VALUES (?, ?, ?, ?, ?, ?)`,
                 [
                     userId,
+                    college || null,
                     graduation_year || null,
                     department || null,
                     company || null,
@@ -112,11 +171,30 @@ router.post("/register", async (req, res) => {
 
         await connection.commit();
 
+        // Generate login token immediately
+        const token = jwt.sign(
+            {
+                id: userId,
+                email: normalizedEmail,
+                role: normalizedRole
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: "1d"
+            }
+        );
+
         return res.status(201).json({
             success: true,
-            message: role === "student"
-                ? "Student registration successful! You can now login."
-                : "Alumni registration successful! Please wait for admin verification."
+            message: "Registration successful! Your account is ready.",
+            token,
+            user: {
+                id: userId,
+                name: normalizedName,
+                email: normalizedEmail,
+                role: normalizedRole,
+                status: "approved"
+            }
         });
 
     } catch (error) {
@@ -126,40 +204,61 @@ router.post("/register", async (req, res) => {
 
         console.error("REGISTRATION ERROR:", error);
 
+        if (error.code === "ER_DUP_ENTRY") {
+            return res.status(409).json({
+                success: false,
+                message: "An account with this email already exists."
+            });
+        }
+
         return res.status(500).json({
             success: false,
             message: "Registration failed. Please try again."
         });
 
     } finally {
-        if (connection) connection.release();
+        if (connection) {
+            connection.release();
+        }
     }
 });
 
 
-// USER LOGIN
+// ==========================================
+// LOGIN
+// POST /api/auth/login
+// ==========================================
+
 router.post("/login", async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({
+            success: false,
+            message: "Email and password are required."
+        });
+    }
+
     try {
-        const { email, password } = req.body;
-
-        if (!email || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "Email and password are required."
-            });
-        }
-
-        const normalizedEmail = email.trim().toLowerCase();
+        const normalizedEmail = String(email).trim().toLowerCase();
 
         const [users] = await db.execute(
-            "SELECT * FROM users WHERE email = ?",
+            `SELECT
+                id,
+                name,
+                email,
+                password,
+                role,
+                status
+             FROM users
+             WHERE email = ?`,
             [normalizedEmail]
         );
 
-        if (users.length === 0) {
+        if (!users.length) {
             return res.status(401).json({
                 success: false,
-                message: "Account not found. Please register first."
+                message: "Invalid email or password."
             });
         }
 
@@ -173,27 +272,25 @@ router.post("/login", async (req, res) => {
         if (!passwordMatch) {
             return res.status(401).json({
                 success: false,
-                message: "Incorrect email or password."
+                message: "Invalid email or password."
             });
         }
 
+        // Blocked accounts cannot log in.
         if (user.status === "blocked") {
             return res.status(403).json({
                 success: false,
-                message: "Your account has been blocked. Contact administration."
+                message: "Your account has been blocked. Contact the administrator."
             });
         }
 
-        if (user.status === "pending") {
-            return res.status(403).json({
-                success: false,
-                message: "Your alumni account is awaiting admin verification."
-            });
-        }
+        // No pending approval check.
+        // Student and alumni accounts can log in immediately.
 
         const token = jwt.sign(
             {
                 id: user.id,
+                email: user.email,
                 role: user.role
             },
             process.env.JWT_SECRET,
@@ -202,15 +299,16 @@ router.post("/login", async (req, res) => {
             }
         );
 
-        return res.status(200).json({
+        return res.json({
             success: true,
-            message: "Login successful!",
+            message: "Login successful.",
             token,
             user: {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                status: user.status
             }
         });
 
@@ -219,9 +317,10 @@ router.post("/login", async (req, res) => {
 
         return res.status(500).json({
             success: false,
-            message: "Login failed. Please try again."
+            message: "Unable to log in. Please try again."
         });
     }
 });
+
 
 module.exports = router;
